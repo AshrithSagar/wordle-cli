@@ -23,8 +23,8 @@ def check_guess(word, guess):
 def main():
     """Main"""
     with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
-        five_letter_words = file.readlines()
-    word = random.choice(five_letter_words).rstrip('\n')
+        five_letter_words = file.read().splitlines()
+    word = random.choice(five_letter_words)
     # print("Word: ", word)
 
     won = False
@@ -38,6 +38,9 @@ def main():
             continue
         if guess in guesses:
             print("You have already guessed that word.")
+            continue
+        if guess not in five_letter_words:
+            print("Enter a valid word. Try again.")
             continue
         guesses.append(guess)
         if guess == word:
