@@ -29,12 +29,17 @@ def main():
 
     won = False
     state = 1
+    guesses = []
     while won is False:
         print('Try:', state)
         guess = input()
         if len(guess) != 5:
             print("Try again. Enter 5 letter words.")
             continue
+        if guess in guesses:
+            print("You have already guessed that word.")
+            continue
+        guesses.append(guess)
         if guess == word:
             won = True
             print('You win! Guessed it in', state, 'tries!')
