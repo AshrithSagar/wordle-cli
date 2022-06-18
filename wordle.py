@@ -2,10 +2,22 @@
 """
 import io
 import random
+import rich
+
+def letter_green(letter):
+    """Return green letter"""
+    return f'[black on green]{letter}[/]'
+
+def letter_yellow(letter):
+    """Return yellow letter"""
+    return f'[black on yellow]{letter}[/]'
+
+def letter_gray(letter):
+    """Return gray letter"""
+    return f'[black on gray]{letter}[/]'
 
 def check_guess(word, guess):
-    """Returns coloring.
-    0: Green, 1: Yellow, 2: Gray"""
+    """Validates guess"""
     coloring = []
     word_letters = list(word)
     for i in range(5):
@@ -13,11 +25,11 @@ def check_guess(word, guess):
         if letter in word_letters:
             word_letters.remove(letter)
             if letter == word[i]:
-                coloring.append(0)
+                coloring.append(letter_green(letter))
             else:
-                coloring.append(1)
+                coloring.append(letter_yellow(letter))
         else:
-            coloring.append(2)
+            coloring.append(letter_gray(letter))
     return coloring
 
 def main():
@@ -48,7 +60,7 @@ def main():
             print('You win! Guessed it in', state, 'tries!')
             break
         coloring = check_guess(word, guess)
-        print(coloring)
+        rich.print(''.join(coloring))
         state = state + 1
         if state > 6:
             print("Better luck next time! The word was", word)
