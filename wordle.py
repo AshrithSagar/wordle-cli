@@ -2,12 +2,11 @@
 """
 import io
 import random
-from time import sleep
+import time
 from rich import print as rprint
 from rich.console import Console
 from rich.text import Text
 from rich.panel import Panel
-from rich.align import Align
 
 console = Console()
 
@@ -17,12 +16,7 @@ class Wordle():
         """Initialise the game"""
         with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
             self.five_letter_words = file.read().splitlines()
-        self.word = random.choice(self.five_letter_words)
-        # print("Word: ", self.word)
-        self.won = False
-        self.state = 1
-        self.guesses = []
-        self.game_loop()
+        self.word = self.won = self.state = self.guesses = None
 
     def color(self, guess):
         """Validates guess"""
@@ -51,6 +45,15 @@ class Wordle():
             coloring.append('\n')
         return Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state))
 
+    def begin(self):
+        """Begin"""
+        self.word = random.choice(self.five_letter_words)
+        # print("Word: ", self.word)
+        self.won = False
+        self.state = 1
+        self.guesses = []
+        self.game_loop()
+
     def game_loop(self):
         """Main game loop"""
         with console.screen() as screen:
@@ -58,26 +61,28 @@ class Wordle():
                 screen.update(self.panel())
                 guess = input().lower()
                 if len(guess) != 5:
-                    print("Try again. Enter 5 letter words.")
+                    rprint("Try again. Enter 5 letter words.")
                     continue
                 if guess in self.guesses:
-                    print("You have already guessed that word.")
+                    rprint("You have already guessed that word.")
                     continue
                 if guess not in self.five_letter_words:
-                    print("Enter a valid word. Try again.")
+                    rprint("Enter a valid word. Try again.")
                     continue
                 self.guesses.append(guess)
                 if guess == self.word:
                     self.won = True
-                    print('You win! Guessed it in', self.state, 'tries!')
+                    rprint('You win! Guessed it in', self.state, 'tries!')
                     break
                 self.state += 1
                 if self.state > 6:
-                    print("Better luck next time! The word was", self.word)
+                    rprint("Better luck next time! The word was", self.word)
                     break
+            input()
 
 def main():
     """Main"""
-    Wordle()
+    game = Wordle()
+    game.begin()
 
 main()
