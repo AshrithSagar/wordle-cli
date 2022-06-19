@@ -48,7 +48,7 @@ class Wordle():
             for guess in self.guesses:
                 coloring.append(self.validate(guess))
                 coloring.append('\n')
-            rprint(Panel(coloring, title="Wordle", subtitle="Try:"+str(self.state), width=12))
+            rprint(Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state)))
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
