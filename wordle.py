@@ -47,6 +47,9 @@ def game_loop(five_letter_words, word):
     guesses = []
     while won is False:
         print('Try:', state)
+        for guess in guesses:
+            coloring = check_guess(word, guess)
+            rich.print(''.join(coloring))
         guess = input()
         if len(guess) != 5:
             print("Try again. Enter 5 letter words.")
