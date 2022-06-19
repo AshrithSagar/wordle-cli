@@ -3,38 +3,27 @@
 import io
 import random
 from rich import print as rprint
+from rich.text import Text
 
 class Wordle():
     """Main class"""
-    @staticmethod
-    def letter_correct(letter):
-        """Return green letter"""
-        return f'[black on green]{letter}[/]'
-
-    @staticmethod
-    def letter_present(letter):
-        """Return yellow letter"""
-        return f'[black on yellow]{letter}[/]'
-
-    @staticmethod
-    def letter_absent(letter):
-        """Return gray letter"""
-        return f'[black on gray]{letter}[/]'
-
     def validate(self, guess):
         """Validates guess"""
-        coloring = []
+        coloring = Text()
         word_letters = list(self.word)
         for i in range(5):
             letter = guess[i]
             if letter in word_letters:
                 word_letters.remove(letter)
                 if letter == self.word[i]:
-                    coloring.append(self.letter_correct(letter))
+                    # letter correct
+                    coloring.append(letter, style="black on green")
                 else:
-                    coloring.append(self.letter_present(letter))
+                    # letter present
+                    coloring.append(letter, style="black on yellow")
             else:
-                coloring.append(self.letter_absent(letter))
+                # letter absent
+                coloring.append(letter, style="black on gray")
         return coloring
 
     def __init__(self):
@@ -55,7 +44,7 @@ class Wordle():
             print('Try:', self.state)
             for guess in self.guesses:
                 coloring = self.validate(guess)
-                rprint(''.join(coloring))
+                rprint(coloring)
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
@@ -72,7 +61,7 @@ class Wordle():
                 print('You win! Guessed it in', self.state, 'tries!')
                 break
             coloring = self.validate(guess)
-            rprint(''.join(coloring))
+            rprint(coloring)
             self.state += 1
             if self.state > 6:
                 print("Better luck next time! The word was", self.word)
