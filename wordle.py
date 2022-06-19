@@ -3,10 +3,24 @@
 import io
 import random
 from rich import print as rprint
+from rich.console import Console
 from rich.text import Text
+
+console = Console()
 
 class Wordle():
     """Main class"""
+    def __init__(self):
+        """Initialise the game"""
+        with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
+            self.five_letter_words = file.read().splitlines()
+        self.word = random.choice(self.five_letter_words)
+        # print("Word: ", self.word)
+        self.won = False
+        self.state = 1
+        self.guesses = []
+        self.game_loop()
+
     def validate(self, guess):
         """Validates guess"""
         coloring = Text()
@@ -25,17 +39,6 @@ class Wordle():
                 # letter absent
                 coloring.append(letter, style="black on gray")
         return coloring
-
-    def __init__(self):
-        """Initialise the game"""
-        with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
-            self.five_letter_words = file.read().splitlines()
-        self.word = random.choice(self.five_letter_words)
-        # print("Word: ", self.word)
-        self.won = False
-        self.state = 1
-        self.guesses = []
-        self.game_loop()
 
     def game_loop(self):
         """Main game loop"""
