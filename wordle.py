@@ -22,7 +22,7 @@ class Wordle():
         self.guesses = []
         self.game_loop()
 
-    def validate(self, guess):
+    def color(self, guess):
         """Validates guess"""
         coloring = Text()
         word_letters = list(self.word)
@@ -41,14 +41,18 @@ class Wordle():
                 coloring.append(letter, style="black on gray")
         return coloring
 
+    def panel(self):
+        """Show a colored panel"""
+        coloring = Text()
+        for guess in self.guesses:
+            coloring.append(self.color(guess))
+            coloring.append('\n')
+        rprint(Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state)))
+
     def game_loop(self):
         """Main game loop"""
         while self.won is False:
-            coloring = Text()
-            for guess in self.guesses:
-                coloring.append(self.validate(guess))
-                coloring.append('\n')
-            rprint(Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state)))
+            self.panel()
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
