@@ -56,7 +56,7 @@ class Wordle():
             for guess in self.guesses:
                 coloring = self.validate(guess)
                 rich.print(''.join(coloring))
-            guess = input()
+            guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
                 continue
