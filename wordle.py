@@ -4,15 +4,15 @@ import io
 import random
 import rich
 
-def letter_green(letter):
+def letter_correct(letter):
     """Return green letter"""
     return f'[black on green]{letter}[/]'
 
-def letter_yellow(letter):
+def letter_present(letter):
     """Return yellow letter"""
     return f'[black on yellow]{letter}[/]'
 
-def letter_gray(letter):
+def letter_absent(letter):
     """Return gray letter"""
     return f'[black on gray]{letter}[/]'
 
@@ -25,11 +25,11 @@ def check_guess(word, guess):
         if letter in word_letters:
             word_letters.remove(letter)
             if letter == word[i]:
-                coloring.append(letter_green(letter))
+                coloring.append(letter_correct(letter))
             else:
-                coloring.append(letter_yellow(letter))
+                coloring.append(letter_present(letter))
         else:
-            coloring.append(letter_gray(letter))
+            coloring.append(letter_absent(letter))
     return coloring
 
 def main():
