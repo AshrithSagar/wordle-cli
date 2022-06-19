@@ -5,6 +5,7 @@ import random
 from rich import print as rprint
 from rich.console import Console
 from rich.text import Text
+from rich.panel import Panel
 
 console = Console()
 
@@ -45,9 +46,11 @@ class Wordle():
         while self.won is False:
             print("-" * 25)
             print('Try:', self.state)
+            coloring = Text()
             for guess in self.guesses:
-                coloring = self.validate(guess)
-                rprint(coloring)
+                coloring.append(self.validate(guess))
+                coloring.append('\n')
+            rprint(Panel(coloring))
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
