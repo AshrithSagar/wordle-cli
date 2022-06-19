@@ -32,13 +32,16 @@ def check_guess(word, guess):
             coloring.append(letter_absent(letter))
     return coloring
 
-def main():
-    """Main"""
+def game_start():
+    """Initialise the game"""
     with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
         five_letter_words = file.read().splitlines()
     word = random.choice(five_letter_words)
     # print("Word: ", word)
+    return five_letter_words, word
 
+def game_loop(five_letter_words, word):
+    """Main game loop"""
     won = False
     state = 1
     guesses = []
@@ -65,5 +68,10 @@ def main():
         if state > 6:
             print("Better luck next time! The word was", word)
             break
+
+def main():
+    """Main"""
+    five_letter_words, word = game_start()
+    game_loop(five_letter_words, word)
 
 main()
