@@ -2,7 +2,7 @@
 """
 import io
 import random
-import rich
+from rich import print as rprint
 
 class Wordle():
     """Main class"""
@@ -55,7 +55,7 @@ class Wordle():
             print('Try:', self.state)
             for guess in self.guesses:
                 coloring = self.validate(guess)
-                rich.print(''.join(coloring))
+                rprint(''.join(coloring))
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
@@ -72,7 +72,7 @@ class Wordle():
                 print('You win! Guessed it in', self.state, 'tries!')
                 break
             coloring = self.validate(guess)
-            rich.print(''.join(coloring))
+            rprint(''.join(coloring))
             self.state += 1
             if self.state > 6:
                 print("Better luck next time! The word was", self.word)
