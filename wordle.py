@@ -44,13 +44,11 @@ class Wordle():
     def game_loop(self):
         """Main game loop"""
         while self.won is False:
-            print("-" * 25)
-            print('Try:', self.state)
             coloring = Text()
             for guess in self.guesses:
                 coloring.append(self.validate(guess))
                 coloring.append('\n')
-            rprint(Panel(coloring))
+            rprint(Panel(coloring, title="Wordle", subtitle="Try:"+str(self.state)))
             guess = input().lower()
             if len(guess) != 5:
                 print("Try again. Enter 5 letter words.")
@@ -66,8 +64,6 @@ class Wordle():
                 self.won = True
                 print('You win! Guessed it in', self.state, 'tries!')
                 break
-            coloring = self.validate(guess)
-            rprint(coloring)
             self.state += 1
             if self.state > 6:
                 print("Better luck next time! The word was", self.word)
