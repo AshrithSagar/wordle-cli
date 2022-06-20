@@ -45,10 +45,12 @@ class Wordle():
             coloring.append('\n')
         return Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state))
 
-    def begin(self):
+    def begin(self, show=False):
         """Begin"""
         self.word = random.choice(self.five_letter_words)
-        # print("Word: ", self.word)
+        if show is True:
+            print("Word: ", self.word)
+            input()
         self.won = False
         self.state = 1
         self.guesses = []
@@ -76,7 +78,7 @@ class Wordle():
                     break
                 self.state += 1
                 if self.state > 6:
-                    rprint("Better luck next time! The word was", self.word)
+                    rprint("Better luck next time! The word was", self.color(self.word))
                     break
             input()
 
