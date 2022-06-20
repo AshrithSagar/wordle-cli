@@ -2,6 +2,8 @@
 """
 import io
 import random
+import signal
+import sys
 from rich import print as rprint
 from rich.console import Console
 from rich.text import Text
@@ -65,8 +67,8 @@ class Wordle():
     def begin(self, show=False):
         """Begin"""
         self.word = random.choice(self.five_letter_words)
+        rprint("Word: ", self.word)
         if show is True:
-            print("Word: ", self.word)
             input()
         self.won = False
         self.state = 1
@@ -101,8 +103,15 @@ class Wordle():
                     break
             input()
 
+def signal_handler(sig, frame):
+    """Signal handler"""
+    del sig, frame
+    sys.exit(0)
+
 def main():
     """Main"""
+    signal.signal(signal.SIGINT, signal_handler)
+
     game = Wordle()
     game.begin()
 
