@@ -2,7 +2,6 @@
 """
 import io
 import random
-import time
 from rich import print as rprint
 from rich.console import Console
 from rich.text import Text
@@ -16,7 +15,8 @@ class Wordle():
         """Initialise the game"""
         with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
             self.five_letter_words = file.read().splitlines()
-        self.word = self.won = self.state = self.guesses = None
+        self.alphabets = "abcdefghijklmnopqrstuvwxyz"
+        self.word = self.won = self.state = self.guesses = self.clues = None
 
     def color(self, guess):
         """Validates guess"""
@@ -29,12 +29,29 @@ class Wordle():
                 if letter == self.word[i]:
                     # letter correct
                     coloring.append(letter, style="black on green")
+                    self.clues['correct'].append(letter)
                 else:
                     # letter present
                     coloring.append(letter, style="black on yellow")
+                    self.clues['present'].append(letter)
             else:
                 # letter absent
                 coloring.append(letter, style="black on gray")
+                self.clues['absent'].append(letter)
+        return coloring
+
+    def keyboard(self):
+        """Return coloring of the alphabets"""
+        coloring = Text()
+        for letter in self.alphabets:
+            if letter in self.clues['correct']:
+                coloring.append(letter, style="black on green")
+            elif letter in self.clues['present']:
+                coloring.append(letter, style="black on yellow")
+            elif letter in self.clues['absent']:
+                coloring.append(letter, style="black on gray")
+            else:
+                coloring.append(letter, style="black on white")
         return coloring
 
     def panel(self):
@@ -54,6 +71,7 @@ class Wordle():
         self.won = False
         self.state = 1
         self.guesses = []
+        self.clues = {'correct':[], 'present':[], 'absent':[]}
         self.game_loop()
 
     def game_loop(self):
@@ -61,6 +79,7 @@ class Wordle():
         with console.screen() as screen:
             while self.won is False:
                 screen.update(self.panel())
+                rprint(self.keyboard())
                 guess = input().lower()
                 if len(guess) != 5:
                     rprint("Try again. Enter 5 letter words.")
