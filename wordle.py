@@ -67,7 +67,7 @@ class Wordle():
     def begin(self, show=False):
         """Begin"""
         self.word = random.choice(self.five_letter_words)
-        rprint("Word: ", self.word)
+        rprint("Word:", self.word)
         if show is True:
             input()
         self.won = False
