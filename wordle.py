@@ -77,12 +77,12 @@ class Wordle():
 
     def game_loop(self):
         """Main game loop"""
-        endtitles = Text()
+        end_titles = Text()
         with console.screen() as screen:
             while True:
                 screen.update(self.panel())
                 rprint(self.keyboard())
-                rprint(endtitles)
+                rprint(end_titles)
                 guess = input().lower()
                 if self.won:
                     break
@@ -100,9 +100,9 @@ class Wordle():
                     if guess == self.word:
                         self.won = True
                         if self.state == 1:
-                            endtitles.append('You win! Guessed it in 1 try!')
+                            end_titles = Text('You win! Guessed it in 1 try!')
                         else:
-                            endtitles.append('You win! Guessed it in '
+                            end_titles = Text('You win! Guessed it in '
                                 + str(self.state)
                                 + ' tries!')
                         continue
@@ -110,8 +110,8 @@ class Wordle():
                     if self.state > 6:
                         self.state = 6
                         self.won = True
-                        endtitles.append("Better luck next time! The word was "
-                            + str(self.color(self.word)))
+                        end_titles = Text("Better luck next time! The word was ")
+                        end_titles.append(self.word, style="black on green")
 
 def signal_handler(sig, frame):
     """Signal handler"""
