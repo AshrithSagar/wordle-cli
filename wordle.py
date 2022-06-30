@@ -29,17 +29,14 @@ class Wordle():
             if letter in word_letters:
                 word_letters.remove(letter)
                 if letter == self.word[i]:
-                    # letter correct
-                    coloring.append(letter, style="black on green")
                     self.clues['correct'].append(letter)
+                    coloring.append(letter, style="black on green")
                 else:
-                    # letter present
-                    coloring.append(letter, style="black on yellow")
                     self.clues['present'].append(letter)
+                    coloring.append(letter, style="black on yellow")
             else:
-                # letter absent
-                coloring.append(letter, style="black on gray")
                 self.clues['absent'].append(letter)
+                coloring.append(letter, style="black on gray")
         return coloring
 
     def keyboard(self):
@@ -62,7 +59,9 @@ class Wordle():
         for guess in self.guesses:
             coloring.append(self.color(guess))
             coloring.append('\n')
-        return Panel.fit(coloring, title="Wordle", subtitle="Try:"+str(self.state))
+        return Panel.fit(coloring,
+            title="Wordle",
+            subtitle="Try:"+str(self.state))
 
     def begin(self, show=False):
         """Begin"""
@@ -78,30 +77,41 @@ class Wordle():
 
     def game_loop(self):
         """Main game loop"""
+        endtitles = Text()
         with console.screen() as screen:
-            while self.won is False:
+            while True:
                 screen.update(self.panel())
                 rprint(self.keyboard())
+                rprint(endtitles)
                 guess = input().lower()
-                if len(guess) != 5:
-                    rprint("Try again. Enter 5 letter words.")
-                    continue
-                if guess in self.guesses:
-                    rprint("You have already guessed that word.")
-                    continue
-                if guess not in self.five_letter_words:
-                    rprint("Enter a valid word. Try again.")
-                    continue
-                self.guesses.append(guess)
-                if guess == self.word:
-                    self.won = True
-                    rprint('You win! Guessed it in', self.state, 'tries!')
+                if self.won:
                     break
-                self.state += 1
-                if self.state > 6:
-                    rprint("Better luck next time! The word was", self.color(self.word))
-                    break
-            input()
+                else:
+                    if len(guess) != 5:
+                        rprint("Try again. Enter 5 letter words.")
+                        continue
+                    if guess in self.guesses:
+                        rprint("You have already guessed that word.")
+                        continue
+                    if guess not in self.five_letter_words:
+                        rprint("Enter a valid word. Try again.")
+                        continue
+                    self.guesses.append(guess)
+                    if guess == self.word:
+                        self.won = True
+                        if self.state == 1:
+                            endtitles.append('You win! Guessed it in 1 try!')
+                        else:
+                            endtitles.append('You win! Guessed it in '
+                                + str(self.state)
+                                + ' tries!')
+                        continue
+                    self.state += 1
+                    if self.state > 6:
+                        self.state = 6
+                        self.won = True
+                        endtitles.append("Better luck next time! The word was "
+                            + str(self.color(self.word)))
 
 def signal_handler(sig, frame):
     """Signal handler"""
