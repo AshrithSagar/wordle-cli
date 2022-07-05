@@ -63,6 +63,17 @@ class Wordle():
             title="Wordle",
             subtitle="Try:"+str(self.state))
 
+    def check(self, guess):
+        if len(guess) != 5:
+            rprint("Try again. Enter 5 letter words.")
+        elif guess in self.guesses:
+            rprint("You have already guessed that word.")
+        elif guess not in self.five_letter_words:
+            rprint("Enter a valid word. Try again.")
+        else:
+            return False
+        return True
+
     def begin(self, inp=False):
         """Begin"""
         if type(inp) is bool:
@@ -92,14 +103,7 @@ class Wordle():
                 if self.won:
                     break
                 else:
-                    if len(guess) != 5:
-                        rprint("Try again. Enter 5 letter words.")
-                        continue
-                    if guess in self.guesses:
-                        rprint("You have already guessed that word.")
-                        continue
-                    if guess not in self.five_letter_words:
-                        rprint("Enter a valid word. Try again.")
+                    if self.check(guess):
                         continue
                     self.guesses.append(guess)
                     if guess == self.word:
