@@ -18,7 +18,8 @@ class Wordle():
         with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
             self.five_letter_words = file.read().splitlines()
         self.alphabets = "abcdefghijklmnopqrstuvwxyz"
-        self.word = self.won = self.state = self.guesses = self.clues = None
+        self.word = self.won = self.state = self.clues = None
+        self.guesses = []
 
     def color(self, guess):
         """Validates guess"""
@@ -64,6 +65,7 @@ class Wordle():
             subtitle="Try:"+str(self.state))
 
     def check(self, guess):
+        """Returns True for an invalid guess, and False for a valid guess"""
         if len(guess) != 5:
             rprint("Try again. Enter 5 letter words.")
         elif guess in self.guesses:
@@ -81,6 +83,8 @@ class Wordle():
             self.word = random.choice(self.five_letter_words)
         else:
             self.word = inp.lower()
+            if self.check(self.word):
+                exit()
             show = True
         rprint("Word:", self.word)
         if show is True:
