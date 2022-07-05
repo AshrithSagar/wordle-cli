@@ -106,25 +106,24 @@ class Wordle():
                 guess = input().lower()
                 if self.won:
                     break
-                else:
-                    if self.check(guess):
-                        continue
-                    self.guesses.append(guess)
-                    if guess == self.word:
-                        self.won = True
-                        if self.state == 1:
-                            end_titles = Text('You win! Guessed it in 1 try!')
-                        else:
-                            end_titles = Text('You win! Guessed it in '
-                                + str(self.state)
-                                + ' tries!')
-                        continue
-                    self.state += 1
-                    if self.state > 6:
-                        self.state = 6
-                        self.won = True
-                        end_titles = Text("Better luck next time! The word was ")
-                        end_titles.append(self.word, style="black on green")
+                if self.check(guess):
+                    continue
+                self.guesses.append(guess)
+                if guess == self.word:
+                    self.won = True
+                    if self.state == 1:
+                        end_titles = Text('You win! Guessed it in 1 try!')
+                    else:
+                        end_titles = Text('You win! Guessed it in '
+                            + str(self.state)
+                            + ' tries!')
+                    continue
+                self.state += 1
+                if self.state > 6:
+                    self.state = 6
+                    self.won = True
+                    end_titles = Text("Better luck next time! The word was ")
+                    end_titles.append(self.word, style="black on green")
 
 def signal_handler(sig, frame):
     """Signal handler"""
