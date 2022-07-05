@@ -63,9 +63,14 @@ class Wordle():
             title="Wordle",
             subtitle="Try:"+str(self.state))
 
-    def begin(self, show=False):
+    def begin(self, inp=False):
         """Begin"""
-        self.word = random.choice(self.five_letter_words)
+        if type(inp) is bool:
+            show = inp
+            self.word = random.choice(self.five_letter_words)
+        else:
+            self.word = inp.lower()
+            show = True
         rprint("Word:", self.word)
         if show is True:
             input()
