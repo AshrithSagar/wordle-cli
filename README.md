@@ -7,6 +7,12 @@
 
    ```shell
    git clone https://github.com/AshrithSagar/wordle-cli.git
+   cd wordle-cli
+   ```
+   or
+   ```shell
+   gh repo clone AshrithSagar/wordle-cli
+   cd wordle-cli
    ```
 
 2. [Optional] Create a virtual environment.
@@ -30,11 +36,11 @@
    ```shell
    python3 wordle.py
    ```
+   Enjoy!
 
 ## Contribution
 
 ...
 
 ## Licenses
-
-...
+This project falls under MIT License.
