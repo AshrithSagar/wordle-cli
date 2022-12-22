@@ -1,5 +1,7 @@
-"""Wordle
 """
+Wordle
+"""
+
 import io
 import random
 import signal
@@ -11,8 +13,10 @@ from rich.panel import Panel
 
 console = Console(height=8)
 
+
 class Wordle():
     """Main class"""
+
     def __init__(self):
         """Initialise the game"""
         with io.open('five_letter_words.txt', 'r', encoding='utf8') as file:
@@ -61,8 +65,8 @@ class Wordle():
             coloring.append(self.color(guess))
             coloring.append('\n')
         return Panel.fit(coloring,
-            title="Wordle",
-            subtitle="Try:"+str(self.state))
+                         title="Wordle",
+                         subtitle="Try:"+str(self.state))
 
     def check(self, guess):
         """Returns True for an invalid guess, and False for a valid guess"""
@@ -77,7 +81,7 @@ class Wordle():
         return True
 
     def begin(self, inp=False):
-        """Begin"""
+        """Start the game!"""
         if type(inp) is bool:
             show = inp
             self.word = random.choice(self.five_letter_words)
@@ -92,7 +96,7 @@ class Wordle():
         self.won = False
         self.state = 1
         self.guesses = []
-        self.clues = {'correct':[], 'present':[], 'absent':[]}
+        self.clues = {'correct': [], 'present': [], 'absent': []}
         self.game_loop()
 
     def game_loop(self):
@@ -115,8 +119,8 @@ class Wordle():
                         end_titles = Text('You win! Guessed it in 1 try!')
                     else:
                         end_titles = Text('You win! Guessed it in '
-                            + str(self.state)
-                            + ' tries!')
+                                          + str(self.state)
+                                          + ' tries!')
                     continue
                 self.state += 1
                 if self.state > 6:
@@ -125,16 +129,15 @@ class Wordle():
                     end_titles = Text("Better luck next time! The word was ")
                     end_titles.append(self.word, style="black on green")
 
+
 def signal_handler(sig, frame):
     """Signal handler"""
     del sig, frame
     sys.exit(0)
 
-def main():
-    """Main"""
+
+if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
 
     game = Wordle()
     game.begin()
-
-main()
